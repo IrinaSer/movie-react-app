@@ -7,6 +7,7 @@ class App extends React.Component {
     super();
     this.state = {
       movies: moviesData,
+      moviesWillWatch: [],
     };
   }
   removeMovie = (movie) => {
@@ -20,16 +21,23 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.movies.map((movie) => {
-          return (
-            <MovieItem
-              key={movie.id}
-              movie={movie}
-              removeMovie={this.removeMovie}
-            />
-          );
-        })}
+      <div className="container">
+        <div className="row">
+          <div className="col-9">
+            <div className="row">
+              {this.state.movies.map((movie) => {
+                return (
+                  <div className="col-6 mb-4">
+                    <MovieItem movie={movie} removeMovie={this.removeMovie} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="col-3">
+            <p>Will watch: {this.movies.moviesWillWatch.length}</p>
+          </div>
+        </div>
       </div>
     );
   }
