@@ -1,4 +1,5 @@
 import React from "react";
+const classNames = require("classnames");
 
 class MovieTabs extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
@@ -12,8 +13,12 @@ class MovieTabs extends React.Component {
     const handleClick = (value) => () => {
       updateSortBy(value);
     };
+
     const getClass = (value) => {
-      return `nav-link ${sort_by === value ? "active" : ""}`;
+      return classNames({
+        "nav-link": true,
+        active: sort_by === value,
+      });
     };
     return (
       <ul className="tabs nav nav-pills">
