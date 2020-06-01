@@ -27,7 +27,7 @@ class MovieItem extends React.Component {
     });
     return (
       <div className="card">
-        <img className="card-img-top" src={`https:image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`} alt="" />
+        <img className="card-img-top" src={`http:image.tmdb.org/t/p/w500${movie.backdrop_path || movie.poster_path}`} alt={movie.title} />
         <div className="card-body">
           <h6 className="card-title">{movie.title}</h6>
           <div className="d-flex justify-content-between align-items-center">
