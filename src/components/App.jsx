@@ -1,7 +1,9 @@
 import React from "react";
 import MovieItem from "./MovieItem";
 import MovieTabs from "./MovieTabs";
+import ReactPaginate from "react-paginate";
 import { API_URL, API_KEY_3 } from "../utils/api";
+import "../App.css";
 
 class App extends React.Component {
   constructor() {
@@ -10,8 +12,27 @@ class App extends React.Component {
       movies: [],
       moviesWillWatch: [],
       sort_by: "popularity.desc",
+      offset: 0,
+      perPage: 20,
+      currentPage: 1,
+      pageCount: 0,
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
+  handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    const offset = selectedPage * this.state.perPage;
+    console.log("handlePageClick", selectedPage, offset, this.state);
+    this.setState(
+      {
+        currentPage: selectedPage + 1,
+        offset: offset,
+      },
+      () => {
+        this.getMovies();
+      }
+    );
+  };
 
   componentDidMount() {
     this.getMovies();
@@ -24,13 +45,15 @@ class App extends React.Component {
   }
 
   getMovies = () => {
-    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}`)
+    fetch(`${API_URL}/discover/movie?api_key=${API_KEY_3}&sort_by=${this.state.sort_by}&page=${this.state.currentPage}`)
       .then((response) => {
         return response.json();
       })
       .then((data) => {
         this.setState({
           movies: data.results,
+          currentPage: data.page,
+          pageCount: data.total_pages,
         });
       });
   };
@@ -89,6 +112,23 @@ class App extends React.Component {
           </div>
           <div className="col-3">
             <p>Will watch: {this.state.moviesWillWatch.length}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+            <ReactPaginate
+              previousLabel={"prev"}
+              nextLabel={"next"}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              onPageChange={this.handlePageClick}
+              containerClassName={"pagination"}
+              subContainerClassName={"pages pagination"}
+              activeClassName={"active"}
+            />
           </div>
         </div>
       </div>
