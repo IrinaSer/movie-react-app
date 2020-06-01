@@ -22,7 +22,7 @@ class App extends React.Component {
   handlePageClick = (e) => {
     const selectedPage = e.selected;
     const offset = selectedPage * this.state.perPage;
-    console.log("handlePageClick", selectedPage, offset, this.state);
+
     this.setState(
       {
         currentPage: selectedPage + 1,
