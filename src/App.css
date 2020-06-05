@@ -106,3 +106,7 @@
   overflow: hidden;
   object-fit: cover;
 }
+
+.nav-link {
+  cursor: pointer;
+}
